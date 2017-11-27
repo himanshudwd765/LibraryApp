@@ -39,7 +39,7 @@ class LibraryList extends Component {
             onChangeText={text => this.updateInput(text)}
             style={styles.input}
             value={this.state.inputValue}
-            placeholder="Name"
+            placeholder="Enter Book name"
             />
             <TouchableHighlight
                 underlayColor="#0d66a2"
@@ -52,7 +52,7 @@ class LibraryList extends Component {
                 {
                 this.props.books.map((book, index) => (
                     <View key={index} style={{marginTop:12}}>
-                    <Text>Name: {book.name}</Text>
+                    <Text style={{fontSize:20}}>Name: {book.name}</Text>
                     </View>
                 ))
                 }
@@ -90,6 +90,7 @@ const styles = StyleSheet.create({
       borderRadius: 3,
       padding: 5,
       marginTop: 12,
+      fontSize:18
     },
     button: {
       backgroundColor: '#0d66a2',
