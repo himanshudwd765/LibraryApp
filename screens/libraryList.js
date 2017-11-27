@@ -63,6 +63,7 @@ class LibraryList extends Component {
     }
 }
 
+/* This function will take the state object and map it as props  */
 function mapStateToProps (state) {
     return {
       books: state.libraryReducer.books
@@ -75,6 +76,7 @@ function mapDispatchToProps (dispatch) {
     }
 }
   
+// Connect function helps to connect component with store
 export default connect(mapStateToProps,mapDispatchToProps)(LibraryList)
 
 //Styles for the view
