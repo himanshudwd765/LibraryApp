@@ -76,10 +76,10 @@ function mapDispatchToProps (dispatch) {
     }
 }
   
-// Connect function helps to connect component with store
+/* Connect function helps to connect component with store */
 export default connect(mapStateToProps,mapDispatchToProps)(LibraryList)
 
-//Styles for the view
+/* Styles for the view */
 const styles = StyleSheet.create({
     container: {
       marginTop: 20,
