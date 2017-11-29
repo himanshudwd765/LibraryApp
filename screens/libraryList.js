@@ -5,14 +5,17 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
+  FlatList,
   ScrollView,
   View
 } from 'react-native';
 import { connect } from 'react-redux';
-import { addBook } from 'LibraryApp/actions';
+import { addBook, deleteBook } from 'LibraryApp/actions';
 import TextHeader from 'LibraryApp/components/textHeader';
 
 class LibraryList extends Component {
+
+    _keyExtractor = (item, index) => index;
 
     constructor(props){
         super(props);
@@ -27,6 +30,10 @@ class LibraryList extends Component {
         });
         this.setState({ inputValue: '' });
     }
+
+    deleteBookFromLibrary = (book) => {
+        this.props.dispatchdeleteBook(book)
+      }
 
     updateInput = (inputValue) => {
         this.setState({ inputValue })
@@ -48,18 +55,35 @@ class LibraryList extends Component {
             <Text style={styles.buttonText}>Add Book</Text>
             </TouchableHighlight>
             <TextHeader text={'* List of Books *'}/>
-            <ScrollView>
-                {
-                this.props.books.map((book, index) => (
-                    <View key={index} style={{marginTop:12}}>
-                    <Text style={{fontSize:20}}>Name: {book.name}</Text>
-                    </View>
-                ))
-                }
-            </ScrollView>
+            <View>
+                <FlatList
+                    data={this.props.books}
+                    renderItem={this._renderBookListRow.bind(this)}
+                    ItemSeparatorComponent={this._renderSeparator}
+                    keyExtractor={this._keyExtractor}
+                    style={{margin:5}}
+                />
+            </View>
 
       </View>
       );
+    }
+
+    _renderBookListRow(rowData){
+        return(
+            <View style={{flexDirection:'row', padding:5, justifyContent:'space-between'}}>
+                <Text style={{fontSize:18}}>{(rowData.index+1)+". "+rowData.item.name}</Text>
+                <TouchableHighlight underlayColor = 'transparent' onPress={() => this.deleteBookFromLibrary(rowData.item)}>
+                    <Text style={{fontSize:15, color:'red'}}>Remove</Text>
+                </TouchableHighlight>
+            </View>
+        );
+    }
+
+    _renderSeparator() {
+        return (
+          <View style={{flex: 1,height: 1,backgroundColor: '#CCCCCC'}}></View>
+        );
     }
 }
 
@@ -73,6 +97,7 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
     return {
       dispatchAddBook: (book) => dispatch(addBook(book)),
+      dispatchdeleteBook: (book) => dispatch(deleteBook(book))
     }
 }
   
@@ -82,13 +107,12 @@ export default connect(mapStateToProps,mapDispatchToProps)(LibraryList)
 /* Styles for the view */
 const styles = StyleSheet.create({
     container: {
-      marginTop: 20,
       padding: 20,
     },
     
     input: {
       backgroundColor: '#e4e4e4',
-      height: 55,
+      height: 40,
       borderRadius: 3,
       padding: 5,
       marginTop: 12,
@@ -96,7 +120,7 @@ const styles = StyleSheet.create({
     },
     button: {
       backgroundColor: '#0d66a2',
-      height: 60,
+      height: 40,
       justifyContent: 'center',
       alignItems: 'center',
       marginTop: 12,
