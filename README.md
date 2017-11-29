@@ -1,7 +1,7 @@
 # LibraryApp
 A sample library app built using react native and redux.
 
-![Sample1](screenshot/library_app.gif)
+![Sample1](screenshot/library_screen.gif)
 
 ## Installation
 
